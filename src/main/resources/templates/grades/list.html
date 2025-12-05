@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>등급 목록</h2>
+<form class="row g-2 mb-3">
+    <div class="col"><input type="text" class="form-control" name="type" placeholder="타입" th:value="${searchType}"></div>
+    <div class="col"><input type="text" class="form-control" name="name" placeholder="이름" th:value="${searchName}"></div>
+    <div class="col"><button class="btn btn-primary" type="submit">검색</button> <a class="btn btn-success" href="/admin/grades/new">신규</a></div>
+</form>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Type</th><th>Level</th><th>Name</th><th>추천레벨</th><th>난이도</th><th></th></tr></thead>
+    <tbody>
+    <tr th:each="grade : ${grades}">
+        <td th:text="${grade.id}"></td>
+        <td th:text="${grade.type}"></td>
+        <td th:text="${grade.level}"></td>
+        <td><a th:href="@{'/admin/grades/' + ${grade.id}}" th:text="${grade.name}"></a></td>
+        <td th:text="${grade.recommendedPlayerLevelMin} + ' ~ ' + ${grade.recommendedPlayerLevelMax}"></td>
+        <td th:text="${grade.difficultyScore}"></td>
+        <td>
+            <form th:action="@{'/admin/grades/' + ${grade.id} + '/delete'}" method="post">
+                <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

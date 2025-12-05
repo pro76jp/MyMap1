@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>스토리 목록</h2>
+<form class="row g-2 mb-3">
+    <div class="col"><input class="form-control" name="title" placeholder="제목" th:value="${searchTitle}"></div>
+    <div class="col"><input class="form-control" name="type" placeholder="타입" th:value="${searchType}"></div>
+    <div class="col"><button class="btn btn-primary" type="submit">검색</button> <a class="btn btn-success" href="/admin/stories/new">신규</a></div>
+</form>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Tags</th><th></th></tr></thead>
+    <tbody>
+    <tr th:each="story : ${stories}">
+        <td th:text="${story.id}"></td>
+        <td><a th:href="@{'/admin/stories/' + ${story.id}}" th:text="${story.title}"></a></td>
+        <td th:text="${story.type}"></td>
+        <td th:text="${story.tags}"></td>
+        <td>
+            <form th:action="@{'/admin/stories/' + ${story.id} + '/delete'}" method="post">
+                <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
