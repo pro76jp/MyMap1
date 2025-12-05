@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>시나리오 목록</h2>
+<form class="row g-2 mb-3">
+    <div class="col"><input class="form-control" name="name" placeholder="이름" th:value="${searchName}"></div>
+    <div class="col"><button class="btn btn-primary" type="submit">검색</button> <a class="btn btn-success" href="/admin/scenarios/new">신규</a></div>
+</form>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>이름</th><th>추천 레벨</th><th>랜덤 타일</th><th></th></tr></thead>
+    <tbody>
+    <tr th:each="scenario : ${scenarios}">
+        <td th:text="${scenario.id}"></td>
+        <td><a th:href="@{'/admin/scenarios/' + ${scenario.id}}" th:text="${scenario.name}"></a></td>
+        <td th:text="${scenario.recommendedLevelMin} + ' ~ ' + ${scenario.recommendedLevelMax}"></td>
+        <td th:text="${scenario.randomTileCount}"></td>
+        <td>
+            <form th:action="@{'/admin/scenarios/' + ${scenario.id} + '/delete'}" method="post">
+                <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

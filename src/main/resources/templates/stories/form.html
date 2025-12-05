@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>스토리 편집</h2>
+<form th:action="@{/admin/stories}" th:object="${story}" method="post" class="row g-3">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-12">
+        <label class="form-label">제목</label>
+        <input class="form-control" th:field="*{title}" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">타입</label>
+        <input class="form-control" th:field="*{type}" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">태그</label>
+        <input class="form-control" th:field="*{tags}">
+    </div>
+    <div class="col-12">
+        <label class="form-label">본문</label>
+        <textarea class="form-control" rows="6" th:field="*{body}" required></textarea>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">저장</button>
+        <a class="btn btn-secondary" href="/admin/stories">목록</a>
+    </div>
+</form>
+</body>
+</html>

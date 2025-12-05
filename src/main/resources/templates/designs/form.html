@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>디자인 에셋 편집</h2>
+<p class="text-muted">targetType/targetId 조합으로 실제 엔티티 리소스를 연결합니다. 예) NPC 1, OBJECT 2 등</p>
+<form th:action="@{/admin/designs}" th:object="${designAsset}" method="post" class="row g-3">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-md-4"><label class="form-label">타겟 타입</label><input class="form-control" th:field="*{targetType}" required></div>
+    <div class="col-md-4"><label class="form-label">타겟 ID</label><input class="form-control" th:field="*{targetId}" type="number" required></div>
+    <div class="col-md-6"><label class="form-label">이미지 경로</label><input class="form-control" th:field="*{imagePath}"></div>
+    <div class="col-md-6"><label class="form-label">스프라이트시트</label><input class="form-control" th:field="*{spriteSheetPath}"></div>
+    <div class="col-md-4"><label class="form-label">애니메이션 ID</label><input class="form-control" th:field="*{animationId}"></div>
+    <div class="col-md-4"><label class="form-label">변형명</label><input class="form-control" th:field="*{variantName}"></div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">저장</button>
+        <a class="btn btn-secondary" href="/admin/designs">목록</a>
+    </div>
+</form>
+</body>
+</html>

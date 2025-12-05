@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>퀘스트 편집</h2>
+<form th:action="@{/admin/quests}" th:object="${questTemplate}" method="post" class="row g-3">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-12">
+        <label class="form-label">제목</label>
+        <input class="form-control" th:field="*{title}" required>
+    </div>
+    <div class="col-12">
+        <label class="form-label">설명</label>
+        <textarea class="form-control" rows="4" th:field="*{description}" required></textarea>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">퀘스트 타입</label>
+        <input class="form-control" th:field="*{questType}" required>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">지급 타입</label>
+        <input class="form-control" th:field="*{giverType}" required>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">지급 Ref ID</label>
+        <input class="form-control" th:field="*{giverRefId}" type="number">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">요구조건 JSON</label>
+        <textarea class="form-control" rows="3" th:field="*{requirementJson}"></textarea>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">보상 JSON</label>
+        <textarea class="form-control" rows="3" th:field="*{rewardJson}"></textarea>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">해금 시나리오 ID</label>
+        <input class="form-control" th:field="*{availableFromScenarioId}" type="number">
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">저장</button>
+        <a class="btn btn-secondary" href="/admin/quests">목록</a>
+    </div>
+</form>
+</body>
+</html>
