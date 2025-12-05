@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>시나리오 편집</h2>
+<form th:action="@{/admin/scenarios}" th:object="${scenarioTemplate}" method="post" class="row g-3">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-md-6">
+        <label class="form-label">이름</label>
+        <input class="form-control" th:field="*{name}" required>
+    </div>
+    <div class="col-12">
+        <label class="form-label">설명</label>
+        <textarea class="form-control" rows="4" th:field="*{description}" required></textarea>
+    </div>
+    <div class="col-md-3"><label class="form-label">추천 레벨 Min</label><input class="form-control" type="number" th:field="*{recommendedLevelMin}"></div>
+    <div class="col-md-3"><label class="form-label">추천 레벨 Max</label><input class="form-control" type="number" th:field="*{recommendedLevelMax}"></div>
+    <div class="col-md-3"><label class="form-label">랜덤 타일 수</label><input class="form-control" type="number" th:field="*{randomTileCount}"></div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">저장</button>
+        <a class="btn btn-secondary" href="/admin/scenarios">목록</a>
+    </div>
+</form>
+
+<div th:if="${scenarioTemplate.id != null}">
+    <hr />
+    <h4>필수 타일</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>타일</th><th>순서</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="link : ${scenarioTemplate.requiredTiles}">
+            <td th:text="${link.baseTile?.name}"></td>
+            <td th:text="${link.orderIndex}"></td>
+            <td>
+                <form th:action="@{'/admin/scenarios/' + ${scenarioTemplate.id} + '/required-tiles/' + ${link.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{'/admin/scenarios/' + ${scenarioTemplate.id} + '/required-tiles'}" method="post" class="row g-2">
+        <div class="col-md-6">
+            <select class="form-select" name="baseTileId" required>
+                <option th:each="t : ${baseTiles}" th:value="${t.id}" th:text="${t.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-3"><input class="form-control" name="orderIndex" placeholder="순서" type="number"></div>
+        <div class="col-md-3"><button class="btn btn-success" type="submit">추가</button></div>
+    </form>
+
+    <h4 class="mt-4">랜덤 타일 규칙</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>타입</th><th>등급Min</th><th>등급Max</th><th>개수</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="rule : ${scenarioTemplate.randomTileRules}">
+            <td th:text="${rule.tileTypeFilter}"></td>
+            <td th:text="${rule.gradeMin}"></td>
+            <td th:text="${rule.gradeMax}"></td>
+            <td th:text="${rule.count}"></td>
+            <td>
+                <form th:action="@{'/admin/scenarios/' + ${scenarioTemplate.id} + '/random-rules/' + ${rule.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{'/admin/scenarios/' + ${scenarioTemplate.id} + '/random-rules'}" method="post" class="row g-2">
+        <div class="col-md-3"><input class="form-control" name="tileTypeFilter" placeholder="타입"></div>
+        <div class="col-md-2"><input class="form-control" name="gradeMin" placeholder="최소 등급" type="number"></div>
+        <div class="col-md-2"><input class="form-control" name="gradeMax" placeholder="최대 등급" type="number"></div>
+        <div class="col-md-2"><input class="form-control" name="count" placeholder="개수" type="number" required></div>
+        <div class="col-md-3"><button class="btn btn-success" type="submit">규칙 추가</button></div>
+    </form>
+
+    <h4 class="mt-4">시나리오 퀘스트</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>퀘스트</th><th>타입</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="link : ${scenarioTemplate.quests}">
+            <td th:text="${link.quest?.title}"></td>
+            <td th:text="${link.type}"></td>
+            <td>
+                <form th:action="@{'/admin/scenarios/' + ${scenarioTemplate.id} + '/quests/' + ${link.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{'/admin/scenarios/' + ${scenarioTemplate.id} + '/quests'}" method="post" class="row g-2">
+        <div class="col-md-6">
+            <select class="form-select" name="questId" required>
+                <option th:each="q : ${quests}" th:value="${q.id}" th:text="${q.title}"></option>
+            </select>
+        </div>
+        <div class="col-md-4"><input class="form-control" name="type" placeholder="타입" required></div>
+        <div class="col-md-2"><button class="btn btn-success" type="submit">추가</button></div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>오브젝트 편집</h2>
+<form th:action="@{/admin/objects}" th:object="${objectTemplate}" method="post" class="row g-3">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-md-6">
+        <label class="form-label">이름</label>
+        <input class="form-control" th:field="*{name}" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">타입</label>
+        <input class="form-control" th:field="*{objectType}" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">기본 스토리</label>
+        <select class="form-select" th:field="*{baseStory}">
+            <option th:value="">선택없음</option>
+            <option th:each="story : ${stories}" th:value="${story}" th:text="${story.title}"></option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">상호작용 가능</label>
+        <input type="checkbox" class="form-check-input ms-2" th:field="*{interactive}">
+    </div>
+    <div class="col-12">
+        <label class="form-label">태그</label>
+        <input class="form-control" th:field="*{tags}">
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">저장</button>
+        <a class="btn btn-secondary" href="/admin/objects">목록</a>
+    </div>
+</form>
+
+<div th:if="${objectTemplate.id != null}">
+    <hr />
+    <h4>연결된 퀘스트</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>퀘스트</th><th>타입</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="link : ${objectTemplate.quests}">
+            <td th:text="${link.quest?.title}"></td>
+            <td th:text="${link.relationType}"></td>
+            <td>
+                <form th:action="@{'/admin/objects/' + ${objectTemplate.id} + '/quests/' + ${link.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">제거</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{'/admin/objects/' + ${objectTemplate.id} + '/quests'}" method="post" class="row g-2">
+        <div class="col-md-6">
+            <select class="form-select" name="questId" required>
+                <option th:each="q : ${quests}" th:value="${q.id}" th:text="${q.title}"></option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" name="relationType" placeholder="관계 타입" required>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success" type="submit">퀘스트 추가</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

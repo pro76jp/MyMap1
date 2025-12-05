@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>등급 편집</h2>
+<form th:action="@{/admin/grades}" th:object="${grade}" method="post" class="row g-3">
+    <input type="hidden" th:field="*{id}" />
+    <div class="col-md-6">
+        <label class="form-label">Type</label>
+        <input type="text" class="form-control" th:field="*{type}" required>
+        <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Level</label>
+        <input type="number" class="form-control" th:field="*{level}" min="1" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" th:field="*{name}" required>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">추천 레벨 Min</label>
+        <input type="number" class="form-control" th:field="*{recommendedPlayerLevelMin}">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">추천 레벨 Max</label>
+        <input type="number" class="form-control" th:field="*{recommendedPlayerLevelMax}">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">난이도 점수</label>
+        <input type="number" class="form-control" th:field="*{difficultyScore}">
+    </div>
+    <div class="col-md-12">
+        <label class="form-label">추가 설정(JSON)</label>
+        <textarea class="form-control" th:field="*{extraConfig}" rows="3"></textarea>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">저장</button>
+        <a class="btn btn-secondary" href="/admin/grades">목록</a>
+    </div>
+</form>
+</body>
+</html>

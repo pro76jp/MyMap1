@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<body>
+<h2>기본 타일 편집</h2>
+<form th:action="@{/admin/base-tiles}" th:object="${baseTileTemplate}" method="post" class="row g-3">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-md-6">
+        <label class="form-label">이름</label>
+        <input class="form-control" th:field="*{name}" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">타입</label>
+        <input class="form-control" th:field="*{tileType}" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">등급</label>
+        <select class="form-select" th:field="*{grade}">
+            <option th:value="">선택없음</option>
+            <option th:each="g : ${grades}" th:value="${g}" th:text="${g.name}"></option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">기본 스토리</label>
+        <select class="form-select" th:field="*{baseStory}">
+            <option th:value="">선택없음</option>
+            <option th:each="s : ${stories}" th:value="${s}" th:text="${s.title}"></option>
+        </select>
+    </div>
+    <div class="col-12">
+        <label class="form-label">환경 태그</label>
+        <input class="form-control" th:field="*{envTags}">
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">저장</button>
+        <a class="btn btn-secondary" href="/admin/base-tiles">목록</a>
+    </div>
+</form>
+
+<div th:if="${baseTileTemplate.id != null}">
+    <hr />
+    <h4>오브젝트</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>이름</th><th>필수</th><th>Min</th><th>Max</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="link : ${baseTileTemplate.objects}">
+            <td th:text="${link.objectTemplate?.name}"></td>
+            <td th:text="${link.required}"></td>
+            <td th:text="${link.minCount}"></td>
+            <td th:text="${link.maxCount}"></td>
+            <td>
+                <form th:action="@{'/admin/base-tiles/' + ${baseTileTemplate.id} + '/objects/' + ${link.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{'/admin/base-tiles/' + ${baseTileTemplate.id} + '/objects'}" method="post" class="row g-2">
+        <div class="col-md-4">
+            <select class="form-select" name="objectId" required>
+                <option th:each="o : ${objectsList}" th:value="${o.id}" th:text="${o.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-check-label"><input type="checkbox" class="form-check-input" name="required"> 필수</label>
+        </div>
+        <div class="col-md-2"><input class="form-control" name="minCount" placeholder="Min" type="number"></div>
+        <div class="col-md-2"><input class="form-control" name="maxCount" placeholder="Max" type="number"></div>
+        <div class="col-md-2"><button class="btn btn-success" type="submit">추가</button></div>
+    </form>
+
+    <h4 class="mt-4">NPC</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>이름</th><th>Min</th><th>Max</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="link : ${baseTileTemplate.npcs}">
+            <td th:text="${link.npcTemplate?.name}"></td>
+            <td th:text="${link.minCount}"></td>
+            <td th:text="${link.maxCount}"></td>
+            <td>
+                <form th:action="@{'/admin/base-tiles/' + ${baseTileTemplate.id} + '/npcs/' + ${link.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{'/admin/base-tiles/' + ${baseTileTemplate.id} + '/npcs'}" method="post" class="row g-2">
+        <div class="col-md-4">
+            <select class="form-select" name="npcId" required>
+                <option th:each="n : ${npcsList}" th:value="${n.id}" th:text="${n.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-2"><input class="form-control" name="minCount" placeholder="Min" type="number"></div>
+        <div class="col-md-2"><input class="form-control" name="maxCount" placeholder="Max" type="number"></div>
+        <div class="col-md-2"><button class="btn btn-success" type="submit">추가</button></div>
+    </form>
+
+    <h4 class="mt-4">퀘스트</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>제목</th><th>타입</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="link : ${baseTileTemplate.quests}">
+            <td th:text="${link.quest?.title}"></td>
+            <td th:text="${link.type}"></td>
+            <td>
+                <form th:action="@{'/admin/base-tiles/' + ${baseTileTemplate.id} + '/quests/' + ${link.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{'/admin/base-tiles/' + ${baseTileTemplate.id} + '/quests'}" method="post" class="row g-2">
+        <div class="col-md-6">
+            <select class="form-select" name="questId" required>
+                <option th:each="q : ${questsList}" th:value="${q.id}" th:text="${q.title}"></option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" name="type" placeholder="타입" required>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success" type="submit">추가</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

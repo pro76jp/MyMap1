@@ -1,4 +1,4 @@
-package com.example.gamemaster
+package com.example.gamemasteradmin
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
