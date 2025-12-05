@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: *">
+<body>
+<h2>Edit Quest</h2>
+<form th:action="@{'/admin/quests/' + ${quest.id}}" method="post" class="row g-2">
+    <div class="col-md-4"><input class="form-control" name="title" th:value="${quest.title}" required></div>
+    <div class="col-md-4"><input class="form-control" name="questType" th:value="${quest.questType}"></div>
+    <div class="col-md-4"><input class="form-control" name="giverType" th:value="${quest.giverType}"></div>
+    <div class="col-12"><textarea class="form-control" name="description" rows="4" th:text="${quest.description}"></textarea></div>
+    <div class="col-6"><textarea class="form-control" name="requirementJson" th:text="${quest.requirementJson}" placeholder="Requirement JSON"></textarea></div>
+    <div class="col-6"><textarea class="form-control" name="rewardJson" th:text="${quest.rewardJson}" placeholder="Reward JSON"></textarea></div>
+    <div class="col-md-4"><input class="form-control" name="giverRefId" type="number" th:value="${quest.giverRefId}"></div>
+    <div class="col-md-4"><input class="form-control" name="availableFromScenarioId" type="number" th:value="${quest.availableFromScenarioId}"></div>
+    <div class="col-12 mt-2"><button class="btn btn-primary">Save</button> <a href="/admin/quests" class="btn btn-secondary">Back</a></div>
+</form>
+</body>
+</html>
