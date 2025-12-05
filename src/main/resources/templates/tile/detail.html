@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: *">
+<body>
+<h2>Base Tile 상세</h2>
+<form th:action="@{'/admin/base-tiles/' + ${tile.id}}" method="post" class="row g-2 mb-3">
+    <div class="col-md-3"><input class="form-control" name="name" th:value="${tile.name}" required></div>
+    <div class="col-md-3"><input class="form-control" name="tileType" th:value="${tile.tileType}"></div>
+    <div class="col-md-3">
+        <select class="form-select" name="grade" th:value="${tile.grade?.id}">
+            <option th:each="g: ${grades}" th:value="${g}" th:selected="${g.id} == ${tile.grade?.id}" th:text="${g.name} + ' Lv' + ${g.level}"></option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select class="form-select" name="baseStory" th:value="${tile.baseStory?.id}">
+            <option th:each="s: ${stories}" th:value="${s}" th:selected="${s.id} == ${tile.baseStory?.id}" th:text="${s.title}"></option>
+        </select>
+    </div>
+    <div class="col-md-4"><input class="form-control" name="envTags" th:value="${tile.envTags}" placeholder="Env Tags"></div>
+    <div class="col-12 mt-2"><button class="btn btn-primary">Save</button> <a href="/admin/base-tiles" class="btn btn-secondary">Back</a></div>
+</form>
+<h4>오브젝트</h4>
+<form th:action="@{'/admin/base-tiles/' + ${tile.id} + '/objects'}" method="post" class="row g-2 mb-2">
+    <div class="col-md-4"><select class="form-select" name="objectId"><option th:each="o:${objects}" th:value="${o.id}" th:text="${o.name}"></option></select></div>
+    <div class="col-md-2"><input class="form-check-input" type="checkbox" name="required" value="true"> 필수</div>
+    <div class="col-md-2"><input class="form-control" name="minCount" type="number" placeholder="min"></div>
+    <div class="col-md-2"><input class="form-control" name="maxCount" type="number" placeholder="max"></div>
+    <div class="col-md-2"><button class="btn btn-success">Add</button></div>
+</form>
+<table class="table table-bordered">
+    <tbody>
+    <tr th:each="link: ${tile.objects}">
+        <td th:text="${link.objectTemplate?.name}"></td>
+        <td th:text="${link.required}"></td>
+        <td th:text="${link.minCount}"></td>
+        <td th:text="${link.maxCount}"></td>
+        <td><form th:action="@{'/admin/base-tiles/' + ${tile.id} + '/objects/' + ${link.id} + '/delete'}" method="post"><button class="btn btn-sm btn-danger">삭제</button></form></td>
+    </tr>
+    </tbody>
+</table>
+<h4>NPC</h4>
+<form th:action="@{'/admin/base-tiles/' + ${tile.id} + '/npcs'}" method="post" class="row g-2 mb-2">
+    <div class="col-md-4"><select class="form-select" name="npcId"><option th:each="n:${npcs}" th:value="${n.id}" th:text="${n.name}"></option></select></div>
+    <div class="col-md-2"><input class="form-control" name="minCount" type="number" placeholder="min"></div>
+    <div class="col-md-2"><input class="form-control" name="maxCount" type="number" placeholder="max"></div>
+    <div class="col-md-2"><button class="btn btn-success">Add</button></div>
+</form>
+<table class="table table-bordered">
+    <tbody>
+    <tr th:each="link: ${tile.npcs}">
+        <td th:text="${link.npcTemplate?.name}"></td>
+        <td th:text="${link.minCount}"></td>
+        <td th:text="${link.maxCount}"></td>
+        <td><form th:action="@{'/admin/base-tiles/' + ${tile.id} + '/npcs/' + ${link.id} + '/delete'}" method="post"><button class="btn btn-sm btn-danger">삭제</button></form></td>
+    </tr>
+    </tbody>
+</table>
+<h4>퀘스트</h4>
+<form th:action="@{'/admin/base-tiles/' + ${tile.id} + '/quests'}" method="post" class="row g-2 mb-2">
+    <div class="col-md-4"><select class="form-select" name="questId"><option th:each="q:${quests}" th:value="${q.id}" th:text="${q.title}"></option></select></div>
+    <div class="col-md-3"><input class="form-control" name="type" placeholder="Type"></div>
+    <div class="col-md-2"><button class="btn btn-success">Add</button></div>
+</form>
+<table class="table table-bordered">
+    <tbody>
+    <tr th:each="link: ${tile.quests}">
+        <td th:text="${link.quest?.title}"></td>
+        <td th:text="${link.type}"></td>
+        <td><form th:action="@{'/admin/base-tiles/' + ${tile.id} + '/quests/' + ${link.id} + '/delete'}" method="post"><button class="btn btn-sm btn-danger">삭제</button></form></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

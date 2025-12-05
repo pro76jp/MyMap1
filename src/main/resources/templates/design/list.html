@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: *">
+<body>
+<h2>Design Assets</h2>
+<form class="row g-2 mb-3">
+    <div class="col-auto"><input class="form-control" name="keyword" placeholder="Target Type"></div>
+    <div class="col-auto"><button class="btn btn-outline-primary">Search</button></div>
+</form>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Target</th><th>Image</th><th>Variant</th><th></th></tr></thead>
+    <tbody>
+    <tr th:each="d : ${assets}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.targetType} + ' #' + ${d.targetId}"></td>
+        <td th:text="${d.imagePath}"></td>
+        <td th:text="${d.variantName}"></td>
+        <td><a th:href="@{'/admin/designs/' + ${d.id}}" class="btn btn-sm btn-primary">Edit</a>
+            <form th:action="@{'/admin/designs/' + ${d.id} + '/delete'}" method="post" style="display:inline">
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h4>새 디자인 에셋</h4>
+<form th:action="@{/admin/designs}" method="post" class="row g-2">
+    <div class="col-md-3"><input class="form-control" name="targetType" placeholder="Target Type" required></div>
+    <div class="col-md-3"><input class="form-control" name="targetId" type="number" placeholder="Target ID" required></div>
+    <div class="col-md-3"><input class="form-control" name="imagePath" placeholder="Image Path"></div>
+    <div class="col-md-3"><input class="form-control" name="spriteSheetPath" placeholder="Sprite Sheet"></div>
+    <div class="col-md-3"><input class="form-control" name="animationId" placeholder="Animation"></div>
+    <div class="col-md-3"><input class="form-control" name="variantName" placeholder="Variant"></div>
+    <div class="col-12 mt-2"><button class="btn btn-success">Create</button></div>
+</form>
+</body>
+</html>

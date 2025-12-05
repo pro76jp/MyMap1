@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: *">
+<body>
+<h2>Base Tiles</h2>
+<form class="row g-2 mb-3">
+    <div class="col-auto"><input class="form-control" name="keyword" placeholder="Name"></div>
+    <div class="col-auto"><button class="btn btn-outline-primary">Search</button></div>
+</form>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Grade</th><th></th></tr></thead>
+    <tbody>
+    <tr th:each="t : ${tiles}">
+        <td th:text="${t.id}"></td>
+        <td th:text="${t.name}"></td>
+        <td th:text="${t.tileType}"></td>
+        <td th:text="${t.grade?.name}"></td>
+        <td><a th:href="@{'/admin/base-tiles/' + ${t.id}}" class="btn btn-sm btn-primary">Detail</a>
+            <form th:action="@{'/admin/base-tiles/' + ${t.id} + '/delete'}" method="post" style="display:inline">
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h4>새 기본 타일</h4>
+<form th:action="@{/admin/base-tiles}" method="post" class="row g-2">
+    <div class="col-md-3"><input class="form-control" name="name" placeholder="Name" required></div>
+    <div class="col-md-3"><input class="form-control" name="tileType" placeholder="Tile Type"></div>
+    <div class="col-md-3">
+        <select class="form-select" name="grade" th:field="*{grade}">
+            <option th:each="g: ${grades}" th:value="${g}" th:text="${g.name} + ' Lv' + ${g.level}"></option>
+        </select>
+    </div>
+    <div class="col-md-3"><input class="form-control" name="envTags" placeholder="Env Tags"></div>
+    <div class="col-md-6 mt-2">
+        <select class="form-select" name="baseStory" th:field="*{baseStory}">
+            <option th:each="s: ${stories}" th:value="${s}" th:text="${s.title}"></option>
+        </select>
+    </div>
+    <div class="col-12 mt-2"><button class="btn btn-success">Create</button></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: *">
+<body>
+<h2>Objects</h2>
+<form class="row g-2 mb-3">
+    <div class="col-auto"><input class="form-control" name="keyword" placeholder="Name"></div>
+    <div class="col-auto"><button class="btn btn-outline-primary">Search</button></div>
+</form>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Interactive</th><th></th></tr></thead>
+    <tbody>
+    <tr th:each="o : ${objects}">
+        <td th:text="${o.id}"></td>
+        <td th:text="${o.name}"></td>
+        <td th:text="${o.objectType}"></td>
+        <td th:text="${o.interactive}"></td>
+        <td><a th:href="@{'/admin/objects/' + ${o.id}}" class="btn btn-sm btn-primary">Detail</a>
+            <form th:action="@{'/admin/objects/' + ${o.id} + '/delete'}" method="post" style="display:inline">
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h4>새 오브젝트</h4>
+<form th:action="@{/admin/objects}" method="post" class="row g-2">
+    <div class="col-md-3"><input class="form-control" name="name" placeholder="Name" required></div>
+    <div class="col-md-3"><input class="form-control" name="objectType" placeholder="Type"></div>
+    <div class="col-md-3">
+        <select class="form-select" name="baseStory" th:field="*{baseStory}">
+            <option th:each="s: ${stories}" th:value="${s}" th:text="${s.title}"></option>
+        </select>
+    </div>
+    <div class="col-md-3"><input class="form-control" name="tags" placeholder="Tags"></div>
+    <div class="col-md-2"><input class="form-check-input" type="checkbox" name="interactive" value="true"> 인터렉티브</div>
+    <div class="col-12 mt-2"><button class="btn btn-success">Create</button></div>
+</form>
+</body>
+</html>
