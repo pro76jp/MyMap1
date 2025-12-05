@@ -1,8 +1,11 @@
 spring:
+  application:
+    name: game-master-admin
   datasource:
-    url: jdbc:mysql://localhost:3306/game_master_admin?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: root
-    password: password
+    url: jdbc:h2:mem:gamemaster;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,5 +15,21 @@ spring:
         format_sql: true
   thymeleaf:
     cache: false
+  h2:
+    console:
+      enabled: true
 server:
   port: 8080
+---
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/game_master_admin?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:password}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
