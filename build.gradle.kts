@@ -24,11 +24,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.webjars:webjars-locator-core")
     implementation("org.webjars:bootstrap:5.3.3")
-<<<<<<< HEAD
-    runtimeOnly("com.h2database:h2")
-=======
     implementation("com.h2database:h2")
->>>>>>> codex/implement-game-world-admin-site-in-kotlin-z2k5i7
     runtimeOnly("com.mysql:mysql-connector-j")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
