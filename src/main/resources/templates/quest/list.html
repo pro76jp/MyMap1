@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: *">
+<body>
+<h2>Quests</h2>
+<form class="row g-2 mb-3">
+    <div class="col-auto"><input class="form-control" name="keyword" placeholder="Title"></div>
+    <div class="col-auto"><button class="btn btn-outline-primary">Search</button></div>
+</form>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Giver</th><th></th></tr></thead>
+    <tbody>
+    <tr th:each="q : ${quests}">
+        <td th:text="${q.id}"></td>
+        <td th:text="${q.title}"></td>
+        <td th:text="${q.questType}"></td>
+        <td th:text="${q.giverType}"></td>
+        <td><a th:href="@{'/admin/quests/' + ${q.id}}" class="btn btn-sm btn-primary">Edit</a>
+            <form th:action="@{'/admin/quests/' + ${q.id} + '/delete'}" method="post" style="display:inline">
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h4>새 퀘스트</h4>
+<form th:action="@{/admin/quests}" method="post" class="row g-2">
+    <div class="col-md-4"><input class="form-control" name="title" placeholder="Title" required></div>
+    <div class="col-md-4"><input class="form-control" name="questType" placeholder="Quest Type"></div>
+    <div class="col-md-4"><input class="form-control" name="giverType" placeholder="Giver Type"></div>
+    <div class="col-12"><textarea class="form-control" name="description" placeholder="Description" rows="3"></textarea></div>
+    <div class="col-6"><textarea class="form-control" name="requirementJson" placeholder="Requirement JSON"></textarea></div>
+    <div class="col-6"><textarea class="form-control" name="rewardJson" placeholder="Reward JSON"></textarea></div>
+    <div class="col-md-4"><input class="form-control" name="giverRefId" type="number" placeholder="Giver Ref Id"></div>
+    <div class="col-md-4"><input class="form-control" name="availableFromScenarioId" type="number" placeholder="Available Scenario"></div>
+    <div class="col-12 mt-2"><button class="btn btn-success">Create</button></div>
+</form>
+</body>
+</html>
